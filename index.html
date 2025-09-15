@@ -79,6 +79,161 @@
       margin-bottom: 40px;
     }
     
+    /* Search Section Styles */
+    .search-section {
+      margin: 40px 0;
+      padding: 30px;
+      background: linear-gradient(135deg, rgba(107, 142, 35, 0.1), rgba(65, 105, 225, 0.1));
+      border-radius: 15px;
+      border: 2px solid rgba(107, 142, 35, 0.2);
+    }
+    
+    .search-container {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    
+    .search-input {
+      flex: 1;
+      padding: 15px 20px;
+      font-size: 1.1em;
+      border: 2px solid #6b8e23;
+      border-radius: 10px;
+      outline: none;
+      transition: all 0.3s ease;
+      background: white;
+    }
+    
+    .search-input:focus {
+      border-color: #4169e1;
+      box-shadow: 0 0 0 3px rgba(65, 105, 225, 0.1);
+    }
+    
+    .search-input::placeholder {
+      color: #999;
+    }
+    
+    .search-button {
+      padding: 15px 30px;
+      background: linear-gradient(135deg, #6b8e23, #8fbc8f);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.1em;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .search-button:hover {
+      background: linear-gradient(135deg, #5a7a1e, #7daa7d);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(107, 142, 35, 0.3);
+    }
+    
+    .search-button:active {
+      transform: translateY(0);
+    }
+    
+    /* Chat Response Area */
+    .chat-response {
+      display: none;
+      margin-top: 20px;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      border-left: 4px solid #4169e1;
+      animation: slideIn 0.3s ease;
+    }
+    
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .chat-response.active {
+      display: block;
+    }
+    
+    .response-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+      color: #4169e1;
+      font-weight: bold;
+    }
+    
+    .response-content {
+      color: #333;
+      line-height: 1.6;
+      font-size: 1.05em;
+    }
+    
+    .loading-indicator {
+      display: none;
+      text-align: center;
+      padding: 20px;
+    }
+    
+    .loading-indicator.active {
+      display: block;
+    }
+    
+    .loading-dots {
+      display: inline-block;
+      animation: loading 1.4s infinite;
+    }
+    
+    @keyframes loading {
+      0%, 80%, 100% { opacity: 0.5; }
+      40% { opacity: 1; }
+    }
+    
+    /* Quick Search Suggestions */
+    .quick-searches {
+      margin-top: 15px;
+    }
+    
+    .quick-search-label {
+      font-size: 0.9em;
+      color: #666;
+      margin-bottom: 10px;
+    }
+    
+    .suggestion-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    
+    .chip {
+      padding: 8px 15px;
+      background: rgba(65, 105, 225, 0.1);
+      border: 1px solid rgba(65, 105, 225, 0.3);
+      border-radius: 20px;
+      font-size: 0.9em;
+      color: #4169e1;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .chip:hover {
+      background: rgba(65, 105, 225, 0.2);
+      transform: translateY(-1px);
+    }
+    
     .color-accents {
       display: flex;
       justify-content: center;
@@ -175,6 +330,51 @@
     <h1>Welcome to NEB AI</h1>
     <p>This is for NEB students - NEPAL.</p>
     
+    <!-- Search Section -->
+    <div class="search-section">
+      <div class="search-container">
+        <input 
+          type="text" 
+          class="search-input" 
+          id="searchInput" 
+          placeholder="Ask me anything about NEB curriculum, subjects, or get study help..."
+          autocomplete="off"
+        />
+        <button class="search-button" id="searchButton">
+          <span>🔍</span>
+          <span>Search</span>
+        </button>
+      </div>
+      
+      <!-- Quick Search Suggestions -->
+      <div class="quick-searches">
+        <div class="quick-search-label">Quick searches:</div>
+        <div class="suggestion-chips">
+          <div class="chip" onclick="performQuickSearch('Physics formulas for class 12')">Physics Formulas</div>
+          <div class="chip" onclick="performQuickSearch('Chemistry periodic table')">Chemistry Help</div>
+          <div class="chip" onclick="performQuickSearch('Mathematics integration')">Math Solutions</div>
+          <div class="chip" onclick="performQuickSearch('Biology notes')">Biology Notes</div>
+          <div class="chip" onclick="performQuickSearch('Computer science programming')">Computer Science</div>
+        </div>
+      </div>
+      
+      <!-- Loading Indicator -->
+      <div class="loading-indicator" id="loadingIndicator">
+        <span class="loading-dots">🤖 AI is thinking...</span>
+      </div>
+      
+      <!-- Chat Response Area -->
+      <div class="chat-response" id="chatResponse">
+        <div class="response-header">
+          <span>🤖</span>
+          <span>NEB AI Assistant</span>
+        </div>
+        <div class="response-content" id="responseContent">
+          <!-- Response will appear here -->
+        </div>
+      </div>
+    </div>
+    
     <div class="color-accents">
       <div class="accent-box olive-green">Learn</div>
       <div class="accent-box navy-blue">Explore</div>
@@ -203,9 +403,158 @@
   </div>
   
   <script>
-    // Enhanced JavaScript with colorful interactions
-    console.log("NEB AI website loaded successfully!");
+    // Enhanced JavaScript with search functionality
+    console.log("NEB AI website with search loaded successfully!");
     
+    // Configuration for your backend
+    const API_CONFIG = {
+      // Update this with your actual backend endpoint
+      endpoint: '/api/chat', // Change this to your backend URL
+      // If your backend is on a different domain, use full URL like:
+      // endpoint: 'http://localhost:3000/api/chat',
+      // endpoint: 'https://your-backend-domain.com/api/chat',
+    };
+    
+    // Search functionality
+    const searchInput = document.getElementById('searchInput');
+    const searchButton = document.getElementById('searchButton');
+    const chatResponse = document.getElementById('chatResponse');
+    const responseContent = document.getElementById('responseContent');
+    const loadingIndicator = document.getElementById('loadingIndicator');
+    
+    // Handle search button click
+    searchButton.addEventListener('click', performSearch);
+    
+    // Handle Enter key in search input
+    searchInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        performSearch();
+      }
+    });
+    
+    // Quick search function
+    function performQuickSearch(query) {
+      searchInput.value = query;
+      performSearch();
+    }
+    
+    // Main search function
+    async function performSearch() {
+      const query = searchInput.value.trim();
+      
+      if (!query) {
+        alert('Please enter a question or topic to search!');
+        return;
+      }
+      
+      // Show loading indicator
+      loadingIndicator.classList.add('active');
+      chatResponse.classList.remove('active');
+      
+      try {
+        // Call your backend API
+        const response = await fetch(API_CONFIG.endpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            message: query,
+            // Add any other parameters your backend needs
+            userId: 'neb-student', // Example user identifier
+            context: 'education'
+          })
+        });
+        
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        
+        const data = await response.json();
+        
+        // Display the response
+        displayResponse(data);
+        
+      } catch (error) {
+        console.error('Error:', error);
+        
+        // Fallback response for demonstration
+        // Remove this in production and handle errors appropriately
+        displayFallbackResponse(query);
+      }
+    }
+    
+    // Display response from backend
+    function displayResponse(data) {
+      loadingIndicator.classList.remove('active');
+      chatResponse.classList.add('active');
+      
+      // Assuming your backend returns a 'response' or 'message' field
+      // Adjust based on your actual API response structure
+      const message = data.response || data.message || data.answer || 'I received your question. Please make sure the backend is properly connected.';
+      
+      responseContent.innerHTML = formatResponse(message);
+    }
+    
+    // Fallback response for demonstration (remove in production)
+    function displayFallbackResponse(query) {
+      loadingIndicator.classList.remove('active');
+      chatResponse.classList.add('active');
+      
+      // Simulated responses based on keywords
+      let response = '';
+      
+      if (query.toLowerCase().includes('physics')) {
+        response = `📚 <strong>Physics Help:</strong><br><br>
+        I can help you with physics topics! Here are some key areas for NEB students:<br>
+        • Mechanics and dynamics<br>
+        • Waves and oscillations<br>
+        • Electricity and magnetism<br>
+        • Modern physics and quantum mechanics<br><br>
+        <em>Note: Connect your backend to get detailed explanations and solutions!</em>`;
+      } else if (query.toLowerCase().includes('math')) {
+        response = `🧮 <strong>Mathematics Support:</strong><br><br>
+        Mathematics topics I can assist with:<br>
+        • Calculus (differentiation and integration)<br>
+        • Algebra and trigonometry<br>
+        • Coordinate geometry<br>
+        • Statistics and probability<br><br>
+        <em>Note: Backend integration needed for step-by-step solutions!</em>`;
+      } else if (query.toLowerCase().includes('chemistry')) {
+        response = `⚗️ <strong>Chemistry Assistance:</strong><br><br>
+        Chemistry areas covered:<br>
+        • Organic chemistry<br>
+        • Inorganic chemistry<br>
+        • Physical chemistry<br>
+        • Chemical equations and balancing<br><br>
+        <em>Note: Connect to backend for detailed chemical explanations!</em>`;
+      } else {
+        response = `🤖 <strong>NEB AI Response:</strong><br><br>
+        I received your question: "${query}"<br><br>
+        To get accurate and detailed responses, please ensure:<br>
+        1. The backend API is properly configured<br>
+        2. Update the API_CONFIG.endpoint in the code<br>
+        3. Your chatbot service is running<br><br>
+        <em>This is a demonstration response. Connect your backend for real AI assistance!</em>`;
+      }
+      
+      responseContent.innerHTML = response;
+    }
+    
+    // Format response with proper HTML
+    function formatResponse(text) {
+      // Convert line breaks to HTML
+      let formatted = text.replace(/\n/g, '<br>');
+      
+      // Add some basic formatting for better readability
+      // You can enhance this based on your backend response format
+      formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      formatted = formatted.replace(/\*(.*?)\*/g, '<em>$1</em>');
+      
+      return formatted;
+    }
+    
+    // Original functionality preserved
     document.addEventListener('DOMContentLoaded', function() {
       const heading = document.querySelector('h1');
       const accentBoxes = document.querySelectorAll('.accent-box');
@@ -241,4 +590,3 @@
   </script>
 </body>
 </html>
-
