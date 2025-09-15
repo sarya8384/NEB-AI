@@ -3,7 +3,7 @@
 <head>
   <title>NEB AI Website</title>
   <style>
-    /* Basic styling with colorful design and educational watermarks */
+    /* Your existing CSS styles remain the same */
     body {
       font-family: Arial, sans-serif;
       margin: 0;
@@ -14,7 +14,6 @@
       overflow-x: hidden;
     }
     
-    /* Educational watermark background */
     body::before {
       content: '';
       position: fixed;
@@ -79,7 +78,6 @@
       margin-bottom: 40px;
     }
     
-    /* Search Section Styles */
     .search-section {
       margin: 40px 0;
       padding: 30px;
@@ -111,10 +109,6 @@
       box-shadow: 0 0 0 3px rgba(65, 105, 225, 0.1);
     }
     
-    .search-input::placeholder {
-      color: #999;
-    }
-    
     .search-button {
       padding: 15px 30px;
       background: linear-gradient(135deg, #6b8e23, #8fbc8f);
@@ -136,11 +130,12 @@
       box-shadow: 0 5px 15px rgba(107, 142, 35, 0.3);
     }
     
-    .search-button:active {
-      transform: translateY(0);
+    .search-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
     }
     
-    /* Chat Response Area */
     .chat-response {
       display: none;
       margin-top: 20px;
@@ -152,14 +147,8 @@
     }
     
     @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     
     .chat-response.active {
@@ -201,7 +190,6 @@
       40% { opacity: 1; }
     }
     
-    /* Quick Search Suggestions */
     .quick-searches {
       margin-top: 15px;
     }
@@ -234,6 +222,27 @@
       transform: translateY(-1px);
     }
     
+    .status-indicator {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 8px;
+      background-color: #dc143c;
+    }
+    
+    .status-indicator.connected {
+      background-color: #6b8e23;
+    }
+    
+    .connection-status {
+      font-size: 0.8em;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+    }
+    
+    /* Rest of your existing CSS... */
     .color-accents {
       display: flex;
       justify-content: center;
@@ -261,17 +270,9 @@
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
     }
     
-    .olive-green {
-      background: linear-gradient(135deg, #6b8e23, #8fbc8f);
-    }
-    
-    .navy-blue {
-      background: linear-gradient(135deg, #4169e1, #6495ed);
-    }
-    
-    .red {
-      background: linear-gradient(135deg, #dc143c, #ff6b6b);
-    }
+    .olive-green { background: linear-gradient(135deg, #6b8e23, #8fbc8f); }
+    .navy-blue { background: linear-gradient(135deg, #4169e1, #6495ed); }
+    .red { background: linear-gradient(135deg, #dc143c, #ff6b6b); }
     
     .interactive-elements {
       margin-top: 50px;
@@ -289,40 +290,18 @@
       border-left: 5px solid;
     }
     
-    .feature-card:nth-child(1) {
-      border-left-color: #6b8e23;
-    }
-    
-    .feature-card:nth-child(2) {
-      border-left-color: #4169e1;
-    }
-    
-    .feature-card:nth-child(3) {
-      border-left-color: #dc143c;
-    }
+    .feature-card:nth-child(1) { border-left-color: #6b8e23; }
+    .feature-card:nth-child(2) { border-left-color: #4169e1; }
+    .feature-card:nth-child(3) { border-left-color: #dc143c; }
     
     .feature-card:hover {
       transform: translateY(-3px);
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     }
     
-    .feature-icon {
-      font-size: 2.5em;
-      margin-bottom: 15px;
-    }
-    
-    .feature-title {
-      font-size: 1.2em;
-      font-weight: bold;
-      color: #333;
-      margin-bottom: 10px;
-    }
-    
-    .feature-desc {
-      color: #666;
-      font-size: 0.95em;
-      line-height: 1.4;
-    }
+    .feature-icon { font-size: 2.5em; margin-bottom: 15px; }
+    .feature-title { font-size: 1.2em; font-weight: bold; color: #333; margin-bottom: 10px; }
+    .feature-desc { color: #666; font-size: 0.95em; line-height: 1.4; }
   </style>
 </head>
 <body>
@@ -330,8 +309,13 @@
     <h1>Welcome to NEB AI</h1>
     <p>This is for NEB students - NEPAL.</p>
     
-    <!-- Search Section -->
     <div class="search-section">
+      <!-- Connection Status -->
+      <div class="connection-status" id="connectionStatus">
+        <span class="status-indicator" id="statusIndicator"></span>
+        <span id="statusText">Connecting to AI backend...</span>
+      </div>
+      
       <div class="search-container">
         <input 
           type="text" 
@@ -346,24 +330,21 @@
         </button>
       </div>
       
-      <!-- Quick Search Suggestions -->
       <div class="quick-searches">
         <div class="quick-search-label">Quick searches:</div>
         <div class="suggestion-chips">
-          <div class="chip" onclick="performQuickSearch('Physics formulas for class 12')">Physics Formulas</div>
-          <div class="chip" onclick="performQuickSearch('Chemistry periodic table')">Chemistry Help</div>
-          <div class="chip" onclick="performQuickSearch('Mathematics integration')">Math Solutions</div>
-          <div class="chip" onclick="performQuickSearch('Biology notes')">Biology Notes</div>
-          <div class="chip" onclick="performQuickSearch('Computer science programming')">Computer Science</div>
+          <div class="chip" onclick="performQuickSearch('What is Newton\'s first law of motion?')">Newton's Laws</div>
+          <div class="chip" onclick="performQuickSearch('Explain electric charges and their properties')">Electric Charges</div>
+          <div class="chip" onclick="performQuickSearch('Define work and energy in physics')">Work & Energy</div>
+          <div class="chip" onclick="performQuickSearch('What is Ohm\'s law?')">Ohm's Law</div>
+          <div class="chip" onclick="performQuickSearch('Explain lenses and their properties')">Optics</div>
         </div>
       </div>
       
-      <!-- Loading Indicator -->
       <div class="loading-indicator" id="loadingIndicator">
         <span class="loading-dots">🤖 AI is thinking...</span>
       </div>
       
-      <!-- Chat Response Area -->
       <div class="chat-response" id="chatResponse">
         <div class="response-header">
           <span>🤖</span>
@@ -387,13 +368,11 @@
         <div class="feature-title">Study Materials</div>
         <div class="feature-desc">Access comprehensive learning resources</div>
       </div>
-      
       <div class="feature-card">
         <div class="feature-icon">🔬</div>
         <div class="feature-title">Lab Simulations</div>
         <div class="feature-desc">Interactive science experiments</div>
       </div>
-      
       <div class="feature-card">
         <div class="feature-icon">📊</div>
         <div class="feature-title">Progress Tracking</div>
@@ -403,29 +382,72 @@
   </div>
   
   <script>
-    // Enhanced JavaScript with search functionality
-    console.log("NEB AI website with search loaded successfully!");
-    
-    // Configuration for your backend
+    // Configuration for connecting to your Hugging Face backend
     const API_CONFIG = {
-      // Update this with your actual backend endpoint
-      endpoint: '/api/chat', // Change this to your backend URL
-      // If your backend is on a different domain, use full URL like:
-      // endpoint: 'http://localhost:3000/api/chat',
-      // endpoint: 'https://your-backend-domain.com/api/chat',
+      // Replace with your actual Hugging Face Space URL
+      huggingFaceSpaceUrl: 'https://YOUR-USERNAME-YOUR-SPACE-NAME.hf.space',
+      // Alternative: if you know your specific space URL, use that
+      // huggingFaceSpaceUrl: 'https://huggingface.co/spaces/YOUR-USERNAME/YOUR-SPACE-NAME',
     };
     
-    // Search functionality
+    // Global variables
+    let isConnected = false;
+    let gradioClient = null;
+    
+    // DOM elements
     const searchInput = document.getElementById('searchInput');
     const searchButton = document.getElementById('searchButton');
     const chatResponse = document.getElementById('chatResponse');
     const responseContent = document.getElementById('responseContent');
     const loadingIndicator = document.getElementById('loadingIndicator');
+    const statusIndicator = document.getElementById('statusIndicator');
+    const statusText = document.getElementById('statusText');
     
-    // Handle search button click
+    // Initialize the connection
+    async function initializeConnection() {
+      try {
+        // Test connection to Hugging Face Space
+        await testConnection();
+        setConnectionStatus(true, 'Connected to NEB AI');
+      } catch (error) {
+        console.error('Connection failed:', error);
+        setConnectionStatus(false, 'Connection failed - using demo mode');
+      }
+    }
+    
+    // Test connection to backend
+    async function testConnection() {
+      if (!API_CONFIG.huggingFaceSpaceUrl || API_CONFIG.huggingFaceSpaceUrl.includes('YOUR-')) {
+        throw new Error('Please update the Hugging Face Space URL in API_CONFIG');
+      }
+      
+      const testUrl = `${API_CONFIG.huggingFaceSpaceUrl}/api/predict`;
+      const response = await fetch(testUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          data: ['test connection', []]
+        })
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+      
+      isConnected = true;
+    }
+    
+    // Set connection status
+    function setConnectionStatus(connected, message) {
+      isConnected = connected;
+      statusIndicator.className = `status-indicator ${connected ? 'connected' : ''}`;
+      statusText.textContent = message;
+    }
+    
+    // Event listeners
     searchButton.addEventListener('click', performSearch);
-    
-    // Handle Enter key in search input
     searchInput.addEventListener('keypress', function(e) {
       if (e.key === 'Enter') {
         performSearch();
@@ -447,115 +469,147 @@
         return;
       }
       
-      // Show loading indicator
+      // Show loading
       loadingIndicator.classList.add('active');
       chatResponse.classList.remove('active');
+      searchButton.disabled = true;
       
       try {
-        // Call your backend API
-        const response = await fetch(API_CONFIG.endpoint, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            message: query,
-            // Add any other parameters your backend needs
-            userId: 'neb-student', // Example user identifier
-            context: 'education'
-          })
-        });
+        let response;
         
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
+        if (isConnected) {
+          // Call Hugging Face Gradio API
+          response = await callGradioAPI(query);
+        } else {
+          // Fallback demo mode
+          response = getDemoResponse(query);
         }
         
-        const data = await response.json();
-        
-        // Display the response
-        displayResponse(data);
+        displayResponse(response);
         
       } catch (error) {
-        console.error('Error:', error);
+        console.error('Search error:', error);
+        displayError('Sorry, there was an error processing your request. Please try again.');
+      } finally {
+        loadingIndicator.classList.remove('active');
+        searchButton.disabled = false;
+      }
+    }
+    
+    // Call Gradio API
+    async function callGradioAPI(query) {
+      const apiUrl = `${API_CONFIG.huggingFaceSpaceUrl}/api/predict`;
+      
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          data: [query, []], // query and empty chat history
+          fn_index: 0 // This might need adjustment based on your Gradio interface
+        })
+      });
+      
+      if (!response.ok) {
+        throw new Error(`API request failed: ${response.status}`);
+      }
+      
+      const result = await response.json();
+      
+      // Parse Gradio response - adjust based on your actual response structure
+      if (result.data && result.data[0] && result.data[0].length > 0) {
+        const lastMessage = result.data[0][result.data[0].length - 1];
+        return lastMessage[1]; // Assuming [user_message, ai_response] format
+      }
+      
+      throw new Error('Invalid response format');
+    }
+    
+    // Get demo response for fallback
+    function getDemoResponse(query) {
+      const lowerQuery = query.toLowerCase();
+      
+      if (lowerQuery.includes('newton') || lowerQuery.includes('motion')) {
+        return `Newton's First Law of Motion states that an object at rest stays at rest and an object in motion stays in motion with the same speed and in the same direction unless acted upon by an unbalanced force. This is also known as the law of inertia.
         
-        // Fallback response for demonstration
-        // Remove this in production and handle errors appropriately
-        displayFallbackResponse(query);
-      }
-    }
-    
-    // Display response from backend
-    function displayResponse(data) {
-      loadingIndicator.classList.remove('active');
-      chatResponse.classList.add('active');
-      
-      // Assuming your backend returns a 'response' or 'message' field
-      // Adjust based on your actual API response structure
-      const message = data.response || data.message || data.answer || 'I received your question. Please make sure the backend is properly connected.';
-      
-      responseContent.innerHTML = formatResponse(message);
-    }
-    
-    // Fallback response for demonstration (remove in production)
-    function displayFallbackResponse(query) {
-      loadingIndicator.classList.remove('active');
-      chatResponse.classList.add('active');
-      
-      // Simulated responses based on keywords
-      let response = '';
-      
-      if (query.toLowerCase().includes('physics')) {
-        response = `📚 <strong>Physics Help:</strong><br><br>
-        I can help you with physics topics! Here are some key areas for NEB students:<br>
-        • Mechanics and dynamics<br>
-        • Waves and oscillations<br>
-        • Electricity and magnetism<br>
-        • Modern physics and quantum mechanics<br><br>
-        <em>Note: Connect your backend to get detailed explanations and solutions!</em>`;
-      } else if (query.toLowerCase().includes('math')) {
-        response = `🧮 <strong>Mathematics Support:</strong><br><br>
-        Mathematics topics I can assist with:<br>
-        • Calculus (differentiation and integration)<br>
-        • Algebra and trigonometry<br>
-        • Coordinate geometry<br>
-        • Statistics and probability<br><br>
-        <em>Note: Backend integration needed for step-by-step solutions!</em>`;
-      } else if (query.toLowerCase().includes('chemistry')) {
-        response = `⚗️ <strong>Chemistry Assistance:</strong><br><br>
-        Chemistry areas covered:<br>
-        • Organic chemistry<br>
-        • Inorganic chemistry<br>
-        • Physical chemistry<br>
-        • Chemical equations and balancing<br><br>
-        <em>Note: Connect to backend for detailed chemical explanations!</em>`;
-      } else {
-        response = `🤖 <strong>NEB AI Response:</strong><br><br>
-        I received your question: "${query}"<br><br>
-        To get accurate and detailed responses, please ensure:<br>
-        1. The backend API is properly configured<br>
-        2. Update the API_CONFIG.endpoint in the code<br>
-        3. Your chatbot service is running<br><br>
-        <em>This is a demonstration response. Connect your backend for real AI assistance!</em>`;
+Key points:
+• Inertia is the tendency to resist changes in motion
+• A net force is required to change an object's state of motion  
+• Examples: A ball rolling on a smooth surface, objects in a moving car
+        
+💡 This is a demo response. Connect your Hugging Face backend for detailed AI assistance!`;
       }
       
-      responseContent.innerHTML = response;
+      if (lowerQuery.includes('electric') || lowerQuery.includes('charge')) {
+        return `Electric charge is a fundamental property of matter. There are two types of electric charges:
+        
+• Positive charges (like protons)
+• Negative charges (like electrons)
+
+Key principles:
+• Like charges repel each other
+• Unlike charges attract each other  
+• SI unit is coulomb (C)
+• Charge is conserved in closed systems
+
+💡 This is a demo response. Connect your Hugging Face backend for detailed explanations!`;
+      }
+      
+      if (lowerQuery.includes('work') || lowerQuery.includes('energy')) {
+        return `Work is done when a force causes displacement of an object.
+
+Formula: W = F × s × cos(θ)
+Where: F = force, s = displacement, θ = angle between force and displacement
+
+Energy types:
+• Kinetic Energy: KE = ½mv²
+• Potential Energy: PE = mgh (gravitational)
+
+Work-Energy Theorem: Work done = Change in kinetic energy
+
+💡 This is a demo response. Connect your Hugging Face backend for detailed solutions!`;
+      }
+      
+      return `I understand you're asking about "${query}".
+      
+To get detailed, accurate responses from the NEB AI system:
+1. Make sure your Hugging Face Space is running
+2. Update the huggingFaceSpaceUrl in the code
+3. Ensure your Gradio app is properly deployed
+
+Current status: Demo mode - please connect to your backend for full AI capabilities.
+
+💡 Try asking about Newton's Laws, Electric Charges, Work & Energy, or Ohm's Law for demo responses!`;
     }
     
-    // Format response with proper HTML
+    // Display response
+    function displayResponse(text) {
+      chatResponse.classList.add('active');
+      responseContent.innerHTML = formatResponse(text);
+    }
+    
+    // Display error
+    function displayError(message) {
+      chatResponse.classList.add('active');
+      responseContent.innerHTML = `<div style="color: #dc143c; font-weight: bold;">❌ ${message}</div>`;
+    }
+    
+    // Format response with HTML
     function formatResponse(text) {
-      // Convert line breaks to HTML
       let formatted = text.replace(/\n/g, '<br>');
-      
-      // Add some basic formatting for better readability
-      // You can enhance this based on your backend response format
       formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
       formatted = formatted.replace(/\*(.*?)\*/g, '<em>$1</em>');
-      
+      formatted = formatted.replace(/•/g, '&bull;');
       return formatted;
     }
     
-    // Original functionality preserved
+    // Initialize when page loads
     document.addEventListener('DOMContentLoaded', function() {
+      // Initialize connection
+      initializeConnection();
+      
+      // Add click interactions
       const heading = document.querySelector('h1');
       const accentBoxes = document.querySelectorAll('.accent-box');
       const featureCards = document.querySelectorAll('.feature-card');
@@ -564,7 +618,6 @@
         alert('Welcome to NEB AI - Your Educational Journey Starts Here!');
       });
       
-      // Add click interactions to accent boxes
       accentBoxes.forEach((box, index) => {
         box.addEventListener('click', function() {
           const messages = [
@@ -576,7 +629,6 @@
         });
       });
       
-      // Add hover effects to feature cards
       featureCards.forEach(card => {
         card.addEventListener('mouseenter', function() {
           this.style.transform = 'translateY(-5px) scale(1.02)';
