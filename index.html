@@ -1,1 +1,244 @@
-<link rel="stylesheet" href="style.css">
+<!DOCTYPE html>
+<html>
+<head>
+  <title>NEB AI Website</title>
+  <style>
+    /* Basic styling with colorful design and educational watermarks */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 40px;
+      background: linear-gradient(135deg, #e8f5e8 0%, #f0f8ff 50%, #ffe8e8 100%);
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+    
+    /* Educational watermark background */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.08;
+      z-index: -1;
+      background-image: 
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Ctext x='10' y='30' font-size='20' fill='%23333'%3E📚%3C/text%3E%3Ctext x='60' y='25' font-size='12' fill='%23666'%3Ex²+y²=r²%3C/text%3E%3Ctext x='15' y='60' font-size='14' fill='%23666'%3E∫f(x)dx%3C/text%3E%3Ctext x='70' y='70' font-size='18' fill='%23333'%3E🔬%3C/text%3E%3Ctext x='30' y='85' font-size='16' fill='%23333'%3E⚗️%3C/text%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='120' viewBox='0 0 150 120'%3E%3Ctext x='20' y='30' font-size='16' fill='%23555'%3EE=mc²%3C/text%3E%3Ctext x='90' y='25' font-size='20' fill='%23333'%3E📖%3C/text%3E%3Ctext x='30' y='60' font-size='18' fill='%23333'%3E🧮%3C/text%3E%3Ctext x='100' y='70' font-size='14' fill='%23666'%3Eπr²%3C/text%3E%3Ctext x='10' y='100' font-size='16' fill='%23333'%3E🎓%3C/text%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-position: 0 0, 75px 60px;
+      animation: float 20s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 60px 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    h1 {
+      color: black;
+      font-size: 3em;
+      margin-bottom: 30px;
+      text-align: center;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+    
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 4px;
+      background: linear-gradient(90deg, #6b8e23, #4169e1, #dc143c);
+      border-radius: 2px;
+    }
+    
+    p {
+      color: #333;
+      font-size: 1.3em;
+      line-height: 1.8;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    .color-accents {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+    
+    .accent-box {
+      width: 120px;
+      height: 80px;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 1.1em;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .accent-box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+    
+    .olive-green {
+      background: linear-gradient(135deg, #6b8e23, #8fbc8f);
+    }
+    
+    .navy-blue {
+      background: linear-gradient(135deg, #4169e1, #6495ed);
+    }
+    
+    .red {
+      background: linear-gradient(135deg, #dc143c, #ff6b6b);
+    }
+    
+    .interactive-elements {
+      margin-top: 50px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+    
+    .feature-card {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      text-align: center;
+      transition: all 0.3s ease;
+      border-left: 5px solid;
+    }
+    
+    .feature-card:nth-child(1) {
+      border-left-color: #6b8e23;
+    }
+    
+    .feature-card:nth-child(2) {
+      border-left-color: #4169e1;
+    }
+    
+    .feature-card:nth-child(3) {
+      border-left-color: #dc143c;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .feature-icon {
+      font-size: 2.5em;
+      margin-bottom: 15px;
+    }
+    
+    .feature-title {
+      font-size: 1.2em;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 10px;
+    }
+    
+    .feature-desc {
+      color: #666;
+      font-size: 0.95em;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome to NEB AI</h1>
+    <p>This is for NEB students - NEPAL.</p>
+    
+    <div class="color-accents">
+      <div class="accent-box olive-green">Learn</div>
+      <div class="accent-box navy-blue">Explore</div>
+      <div class="accent-box red">Discover</div>
+    </div>
+    
+    <div class="interactive-elements">
+      <div class="feature-card">
+        <div class="feature-icon">📚</div>
+        <div class="feature-title">Study Materials</div>
+        <div class="feature-desc">Access comprehensive learning resources</div>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">🔬</div>
+        <div class="feature-title">Lab Simulations</div>
+        <div class="feature-desc">Interactive science experiments</div>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <div class="feature-title">Progress Tracking</div>
+        <div class="feature-desc">Monitor your learning journey</div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Enhanced JavaScript with colorful interactions
+    console.log("NEB AI website loaded successfully!");
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      const heading = document.querySelector('h1');
+      const accentBoxes = document.querySelectorAll('.accent-box');
+      const featureCards = document.querySelectorAll('.feature-card');
+      
+      heading.addEventListener('click', function() {
+        alert('Welcome to NEB AI - Your Educational Journey Starts Here!');
+      });
+      
+      // Add click interactions to accent boxes
+      accentBoxes.forEach((box, index) => {
+        box.addEventListener('click', function() {
+          const messages = [
+            '🎓 Ready to Learn with AI? Let\'s start!',
+            '🔍 Explore endless possibilities in education!',
+            '💡 Discover new ways to understand concepts!'
+          ];
+          alert(messages[index]);
+        });
+      });
+      
+      // Add hover effects to feature cards
+      featureCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+          this.style.transform = 'translateY(-5px) scale(1.02)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+          this.style.transform = 'translateY(0) scale(1)';
+        });
+      });
+    });
+  </script>
+</body>
+</html>
+
